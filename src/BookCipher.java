@@ -3,6 +3,7 @@ public class BookCipher {
     static String Encrypt(String plainText, String bookKey) {
         StringBuilder cipherBuilder = new StringBuilder();
         plainText = plainText.toUpperCase();
+        bookKey = bookKey.toUpperCase();
 
         int j = 0;
         for(int i=0; i<plainText.length(); i++) {
@@ -30,6 +31,7 @@ public class BookCipher {
     static String Decrypt(String cipherText, String bookKey) {
         StringBuilder plainBuilder = new StringBuilder();
         cipherText = cipherText.toUpperCase();
+        bookKey = bookKey.toUpperCase();
 
         int j=0;
         for(int i=0; i<cipherText.length(); i++) {
