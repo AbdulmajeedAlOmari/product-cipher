@@ -8,15 +8,18 @@ public class ProductCipher {
         // 97 to 122 (a-z)
 
         String text = "MAKE HASTE SLOWLY";
-        int key = 4;
+        int railKey = 4;
+        String bookKey = "AWeSoMeKEYAWeSoMeKEYAWeSoMeKEYAWeSoMeKEY";
 
-        String encryptedText = RailFenceCipher.Encrypt(text, key);
-        String decryptedCipher = RailFenceCipher.Decrypt(encryptedText, key);
+        bookKey = bookKey.toUpperCase();
+
+        String encryptedText = Encrypt(text, railKey, bookKey);
+        String decryptedCipher = Decrypt(encryptedText, railKey, bookKey);
 
 
         System.out.println("Original Text: (" + text + ")");
-        System.out.println("Rail-Fence Encryption: (" + encryptedText + ")");
-        System.out.println("Rail-Fence Decryption: (" + decryptedCipher + ")");
+        System.out.println("ProductCipher Encryption: (" + encryptedText + ")");
+        System.out.println("ProductCipher Decryption: (" + decryptedCipher + ")");
     }
 
     /***
@@ -27,16 +30,26 @@ public class ProductCipher {
      * @return returns encrypted text or Cipher Text.
      */
     public static String Encrypt(String plainText, int railKey, String bookKey) throws IllegalArgumentException {
-//        checkInput()
-        String railFenceCipher = RailFenceCipher.Encrypt(plainText, railKey);
-        return "";
+        checkInput(plainText, railKey, bookKey);
+
+        String firstCipher = RailFenceCipher.Encrypt(plainText, railKey);
+        return BookCipher.Encrypt(firstCipher, bookKey);
     }
 
 
+    /***
+     *
+     * @param cipherText: text to be decrypted
+     * @param railKey: a key used in rail-fence to decrypt cipherText
+     * @param bookKey: a key of characters used in book-cipher to decrypt cipherText
+     * @return returns decrypted text or Plain Text.
+     * @throws IllegalArgumentException when given inputs are incorrect
+     */
     public static String Decrypt(String cipherText, int railKey, String bookKey) throws IllegalArgumentException {
-        // TODO: Decrypt message using two different algorithms (Transposition + Diffusion)
+        checkInput(cipherText, railKey, bookKey);
 
-        return "";
+        String firstPlain = BookCipher.Decrypt(cipherText, bookKey);
+        return RailFenceCipher.Decrypt(firstPlain, railKey);
     }
 
     /***
@@ -59,6 +72,13 @@ public class ProductCipher {
             throw new IllegalArgumentException("Book Cipher: key's length must be >= 1.");
         } else if(bookKey.contains(" ")) {
             throw new IllegalArgumentException("Book Cipher: key must not contain a space.");
+        }
+
+        bookKey = bookKey.toUpperCase();
+
+        for (char c : bookKey.toCharArray()) {
+            if(c < 'A' || c > 'Z')
+                throw new IllegalArgumentException("Book Cipher: key can contain letters from A-Z only.");
         }
     }
 }
