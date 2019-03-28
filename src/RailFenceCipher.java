@@ -1,8 +1,6 @@
 public class RailFenceCipher {
 
-    static String Encrypt(String plainText, int key) throws IllegalArgumentException {
-        // Validate input, throw error if exist
-        checkInput(plainText, key);
+    static String Encrypt(String plainText, int key) {
 
         int lengthOfText = plainText.length();
 
@@ -16,8 +14,7 @@ public class RailFenceCipher {
         return extractCipherText(key, lengthOfText, railFence);
     }
 
-    static String Decrypt(String cipherText, int key) throws IllegalArgumentException {
-        checkInput(cipherText, key);
+    static String Decrypt(String cipherText, int key) {
 
         int lengthOfText = cipherText.length();
 
@@ -37,20 +34,6 @@ public class RailFenceCipher {
     /*
                 -- HELPER METHODS --
      */
-
-    private static void checkInput(String text, int key) throws IllegalArgumentException {
-        if(text == null || text.length() <= 1) {
-            throw new IllegalArgumentException("plainText's length must be >= 2.");
-        } if(key <= 1 || key >= text.length()) {
-            throw new IllegalArgumentException("Key for RailFence greater than 1 and less than 1/2 of the message length.");
-        }
-
-        int lengthOfText = text.length();
-
-        if(lengthOfText/key == 0) {
-            throw new IllegalArgumentException("Text can not be encrypted using the key (" + key + ").");
-        }
-    }
 
     private static void fillUsingPlainText(String plainText, int key, char[][] railFence) {
         int lengthOfText = plainText.length();
